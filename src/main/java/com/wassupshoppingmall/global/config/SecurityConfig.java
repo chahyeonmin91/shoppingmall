@@ -25,7 +25,7 @@ public class SecurityConfig {
                                 "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**",
                                 "/api/users/**" // 회원가입/로그인/로그아웃은 허용
                         ).permitAll()
-                        .anyRequest().permitAll()
+                        .anyRequest().authenticated()
                 )
                 .csrf(csrf -> csrf.disable()) // ✅ 람다 스타일로 CSRF 비활성화
                 .formLogin(form -> form.disable()); // 기본 로그인 폼 비활성화
