@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Setter
@@ -16,6 +18,18 @@ public class Product {
 
     @Column(nullable = false, length = 100)
     private String name;
+
+    @Column(nullable = false)
+    private int price;
+
+    @Column(nullable = false)
+    private String description;
+
+    @Column(nullable = false)
+    private int stock;
+
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
 
 
 }
