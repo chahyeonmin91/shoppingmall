@@ -22,7 +22,6 @@ public class Product {
     @Column(nullable = false)
     private int price;
 
-    @Column(nullable = false)
     private String description;
 
     @Column(nullable = false)
