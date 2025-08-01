@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://svc.se15.cloudtype.app:5433/shoppingdb
+    url: jdbc:postgresql://shoppingmall-deploy.cloudtype.io:5433/shoppingdb
     username: shopping
     password: shopping123
 
