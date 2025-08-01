@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://shoppingmall-deploy:5432/shoppingdb
+    url: jdbc:postgresql://shoppingmall-deploy:5433/shoppingdb
     username: shopping
     password: shopping123
 
