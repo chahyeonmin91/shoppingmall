@@ -27,11 +27,11 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public User login(LoginRequest request) {
-        User user = userRepository.findByEmail(request.getEmail())
+    public User login(String email, String password) {
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 이메일입니다"));
 
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다");
         }
         return user;
