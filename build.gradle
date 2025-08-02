@@ -35,8 +35,11 @@ dependencies {
     implementation 'org.postgresql:postgresql:42.7.7'
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
-    //swagger
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
+    // Swagger UI 의존성 추가 (Spring Boot 3.x용)
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+
+    // Spring Boot Actuator (헬스체크용)
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
 }
 
