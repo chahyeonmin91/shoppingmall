@@ -1,6 +1,6 @@
 package com.wassupshoppingmall.global.config;
 
-import com.wassupshoppingmall.global.AdminInterceptor;
+import com.wassupshoppingmall.global.interceptor.AdminInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
