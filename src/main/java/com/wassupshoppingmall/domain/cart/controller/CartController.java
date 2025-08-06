@@ -23,6 +23,6 @@ public class CartController {
     public ResponseEntity<List<CartResponse>> getCartItems(HttpSession session) {
         return ResponseEntity.ok(cartService.getCartItems(session));
     }
-
-    @PostMapping
+//
+//    @PostMapping
 }
