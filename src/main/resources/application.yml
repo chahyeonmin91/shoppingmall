@@ -5,6 +5,11 @@ spring:
     username: shopping
     password: shopping123
 
+  profiles:
+    active: default
+
+  thymeleaf:
+    check-template-location: false
 
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
