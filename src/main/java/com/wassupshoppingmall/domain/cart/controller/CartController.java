@@ -20,8 +20,8 @@ public class CartController {
     private final CartService cartService;
 
     @GetMapping
-    public ResponseEntity<List<CartResponse>> getCartItems(HttpSession session) {
-        return ResponseEntity.ok(cartService.getCartItems(session));
+    public ResponseEntity<List<CartResponse>> getCartItems() {
+        return ResponseEntity.ok(cartService.getCartItems(null));
     }
 //
 //    @PostMapping
