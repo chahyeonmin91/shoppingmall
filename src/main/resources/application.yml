@@ -1,20 +1,49 @@
+
 spring:
+  profiles:
+    active: dev # 기본은 로컬 개발 환경(dev)
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
   datasource:
     driver-class-name: org.postgresql.Driver
-    url:  jdbc:postgresql://svc.sel5.cloudtype.app:31911/shoppingdb
+    url: jdbc:postgresql://svc.sel5.cloudtype.app:31911/shoppingdb
     username: shopping
     password: shopping123
-
-  profiles:
-    active: default
-
-  thymeleaf:
-    check-template-location: false
 
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: update  # 또는 create / validate / none
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  address: 0.0.0.0
+  port: 8080
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://shoppingmall-deploy:5433/shoppingdb
+    username: shopping
+    password: shopping123
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:

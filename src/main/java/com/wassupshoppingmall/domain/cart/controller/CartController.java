@@ -33,6 +33,4 @@ public class CartController {
 
         return ResponseEntity.ok(cartService.getCartItems(session));
     }
-//
-//    @PostMapping
 }
