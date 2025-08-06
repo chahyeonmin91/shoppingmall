@@ -2,6 +2,7 @@ package com.wassupshoppingmall.domain.cart.controller;
 
 import com.wassupshoppingmall.domain.cart.dto.CartResponse;
 import com.wassupshoppingmall.domain.cart.service.CartService;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CartController {
     private final CartService cartService;
+
+    @PostConstruct
+    public void init() {
+        System.out.println("✅ CartController 로딩 완료!");
+    }
 
     @GetMapping
     public ResponseEntity<List<CartResponse>> getCartItems() {
