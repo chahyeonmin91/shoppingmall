@@ -24,10 +24,14 @@ public class CartController {
     public void init() {
         System.out.println("✅ CartController 로딩 완료!");
     }
-
     @GetMapping
-    public ResponseEntity<List<CartResponse>> getCartItems() {
-        return ResponseEntity.ok(cartService.getCartItems(null));
+    public ResponseEntity<List<CartResponse>> getCartItems(HttpSession session) {
+        Long userId = (Long) session.getAttribute("userId");
+        if (userId == null) {
+            throw new IllegalArgumentException("로그인이 필요합니다");
+        }
+
+        return ResponseEntity.ok(cartService.getCartItems(session));
     }
 //
 //    @PostMapping
