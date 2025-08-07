@@ -1,19 +1,24 @@
 package com.wassupshoppingmall.global.interceptor;
 
+import com.wassupshoppingmall.global.auth.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
+@RequiredArgsConstructor
 public class AdminInterceptor implements HandlerInterceptor {
+
+    private final AuthService authService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session = request.getSession(false);
 
-        if (session == null || !"ADMIN".equals(session.getAttribute("role"))) {
+        if (!authService.isAdmin()) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 403
             response.getWriter().write("관리자만 접근 가능합니다.");
             return false;
