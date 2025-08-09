@@ -45,4 +45,9 @@ public class Review {
         updatedAt = LocalDateTime.now();
     }
 
+    public void updateReview(String content, Integer rating) {
+        this.content = content;
+        this.rating = rating;
+    }
+
 }
