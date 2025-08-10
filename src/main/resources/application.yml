@@ -2,11 +2,6 @@ server:
   address: 0.0.0.0
   port: 8080
 
-logging:
-  level:
-    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: DEBUG
-debug: true
-
 spring:
   jpa:
     hibernate:
@@ -19,37 +14,11 @@ spring:
   profiles:
     active: local
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,mappings
-
-springdoc:
-  swagger-ui:
-    path: /swagger-ui.html
-  api-docs:
-    path: /v3/api-docs
-
-
----
-spring:
   config:
     activate:
       on-profile: local
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/shoppingdb
-    username: postgres
-    password: postgres123
-
----
-spring:
-  config:
-    activate:
-      on-profile: prod
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://shoppingmall-postgres:5432/shoppingdb
     username: postgres
     password: postgres123
