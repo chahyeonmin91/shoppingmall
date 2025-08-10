@@ -36,7 +36,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
     // Swagger UI 의존성 추가 (Spring Boot 3.x용)
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
 
     // Spring Boot Actuator (헬스체크용)
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
