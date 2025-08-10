@@ -21,7 +21,11 @@ public class SecurityConfig {
         http
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/api/users/**").permitAll()
+                        .requestMatchers("\"/swagger-ui.html\",\n" +
+                                "    \"/swagger-ui/**\",\n" +
+                                "    \"/v3/api-docs/**\",\n" +
+                                "    \"/swagger-resources/**\",\n" +
+                                "    \"/webjars/**\"").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
