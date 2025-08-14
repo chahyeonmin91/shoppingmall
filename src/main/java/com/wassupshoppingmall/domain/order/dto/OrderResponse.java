@@ -19,6 +19,8 @@ public class OrderResponse {
     private LocalDateTime createdAt;
     private List<OrderItemResponse> items;
 
+    @Getter
+    @AllArgsConstructor
     public static class OrderItemResponse{
         private String productName;
         private int quantity;

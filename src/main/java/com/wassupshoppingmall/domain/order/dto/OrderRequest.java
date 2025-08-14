@@ -12,6 +12,7 @@ public class OrderRequest {
     private String address;
     private List<OrderProduct> products;
 
+    @Getter
     public static class OrderProduct{
         private Long productId;
         private int quantity;

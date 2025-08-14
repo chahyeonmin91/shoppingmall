@@ -23,6 +23,6 @@ public class OrderController {
 
     @GetMapping
     public ResponseEntity<List<OrderResponse>> getMyOrders() {
-        return ResponseEntity.ok(orderService.getMyOrders);
+        return ResponseEntity.ok(orderService.getMyOrders());
     }
 }
