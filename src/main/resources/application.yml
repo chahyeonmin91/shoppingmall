@@ -22,3 +22,13 @@ spring:
     url: jdbc:postgresql://localhost:5432/shoppingdb
     username: postgres
     password: postgres123
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui/index.html        # Swagger UI 접속 경로
+    operations-sorter: method     # GET, POST, PUT 순서 정렬
+    tags-sorter: alpha            # 태그 알파벳순 정렬
+  api-docs:
+    path: /v3/api-docs            # API 문서 JSON 경로
+  default-produces-media-type: application/json
+  default-consumes-media-type: application/json
