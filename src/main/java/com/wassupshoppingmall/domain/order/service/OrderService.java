@@ -67,8 +67,9 @@ public class OrderService {
 
     public OrderResponse getMyOrderDetail(Long orderId) {
         User user = authService.getLoginUser();
-        Order order = orderRepository.findById(orderId,user)
-                .orElseThrow(()->new IllegalArgumentException("해당 주문이 없거나 "))
+        Order order = orderRepository.findByIdAndUser(orderId,user)
+                .orElseThrow(()->new IllegalArgumentException("해당 주문이 없거나 접근 권한이 없습니다."));
+        return toResponse(order.getId(), order);
     }
 
     private OrderResponse toResponse(Long orderId, Order order) {
