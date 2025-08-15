@@ -53,14 +53,31 @@ public class OrderService {
             order.addOrderItem(orderItem);
         }
         order = orderRepository.save(order);
-        order = order.toBuilder().totalPrice(total).build();
+        order = orderRepository.findById(order.getId()).orElseThrow();
+        order.getClass();
+        return toResponse(order.getId(), order);
+    }
 
+    public List<OrderResponse> getMyOrders() {
+        User user = authService.getLoginUser();
+        return orderRepository.findByUser(user).stream()
+                .map(o -> toResponse(o.getId(), o))
+                .collect(Collectors.toList());
+    }
+
+    public OrderResponse getMyOrderDetail(Long orderId) {
+        User user = authService.getLoginUser();
+        Order order = orderRepository.findById(orderId,user)
+                .orElseThrow(()->new IllegalArgumentException("해당 주문이 없거나 "))
+    }
+
+    private OrderResponse toResponse(Long orderId, Order order) {
         return new OrderResponse(
                 order.getId(),
                 order.getRecipient(),
                 order.getPhone(),
                 order.getAddress(),
-                total,
+                order.getTotalPrice(),
                 order.getCreatedAt(),
                 order.getOrderItems().stream()
                         .map(oi -> new OrderResponse.OrderItemResponse(
@@ -70,26 +87,5 @@ public class OrderService {
                         ))
                         .collect(Collectors.toList())
         );
-    }
-
-    public List<OrderResponse> getMyOrders() {
-        User user = authService.getLoginUser();
-        return orderRepository.findByUser(user).stream()
-                .map(order -> new OrderResponse(
-                        order.getId(),
-                        order.getRecipient(),
-                        order.getPhone(),
-                        order.getAddress(),
-                        order.getTotalPrice(),
-                        order.getCreatedAt(),
-                        order.getOrderItems().stream()
-                                .map(oi -> new OrderResponse.OrderItemResponse(
-                                        oi.getProduct().getName(),
-                                        oi.getQuantity(),
-                                        oi.getPrice()
-                                ))
-                                .collect(Collectors.toList())
-                ))
-                .collect(Collectors.toList());
     }
 }

@@ -30,7 +30,6 @@ public class SecurityConfig {
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
-                .csrf(csrf -> csrf.disable()) // ✅ 람다 스타일로 CSRF 비활성화
                 .formLogin(form -> form.disable()); // 기본 로그인 폼 비활성화
 
         return http.build();
