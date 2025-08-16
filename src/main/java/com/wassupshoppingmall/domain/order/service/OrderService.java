@@ -72,6 +72,13 @@ public class OrderService {
         return toResponse(order.getId(), order);
     }
 
+    public List<OrderResponse> getAllOrdersForAdmin() {
+        //AdminInterceptor에서 막아줌
+        return orderRepository.findAll().stream()
+                .map(o -> toResponse(o.getId(), o))
+                .collect(Collectors.toList());
+    }
+
     private OrderResponse toResponse(Long orderId, Order order) {
         return new OrderResponse(
                 order.getId(),
