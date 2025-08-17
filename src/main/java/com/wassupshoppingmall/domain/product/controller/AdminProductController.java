@@ -4,6 +4,7 @@ import com.wassupshoppingmall.domain.product.dto.ProductRequest;
 import com.wassupshoppingmall.domain.product.dto.ProductResponse;
 import com.wassupshoppingmall.domain.product.entity.Product;
 import com.wassupshoppingmall.domain.product.service.ProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ public class AdminProductController {
 
     //관리자 상품 등록
     @PostMapping
-    public ResponseEntity<ProductResponse> createProduct(@RequestBody ProductRequest request) {
+    public ResponseEntity<ProductResponse> createProduct(@RequestBody @Valid ProductRequest request) {
        Product product = productService.createProduct(request);
        return ResponseEntity.ok(
                 new ProductResponse(
@@ -30,7 +31,7 @@ public class AdminProductController {
     }
 
     @PutMapping("/{productId}")
-    public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long productId, @RequestBody ProductRequest request) {
+    public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long productId, @RequestBody @Valid ProductRequest request) {
         Product updated = productService.updateProduct(productId, request);
         return ResponseEntity.ok(
                 new ProductResponse(

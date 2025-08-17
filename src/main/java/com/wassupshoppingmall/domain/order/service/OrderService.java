@@ -79,6 +79,12 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
+    public OrderResponse getOrderDetailForAdmin(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(()-> new IllegalArgumentException("주문을 찾을 수 없습니다."));
+        return toResponse(order.getId(), order);
+    }
+
     private OrderResponse toResponse(Long orderId, Order order) {
         return new OrderResponse(
                 order.getId(),

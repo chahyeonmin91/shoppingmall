@@ -8,7 +8,6 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Entity
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -29,7 +28,8 @@ public class Product {
     private int stock;
 
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
-
+    @PrePersist
+    protected void onCreate(){this.createdAt = LocalDateTime.now();}
 }
