@@ -52,10 +52,10 @@ public class OrderService {
 
             order.addOrderItem(orderItem);
         }
-        order = orderRepository.save(order);
-        order = orderRepository.findById(order.getId()).orElseThrow();
-        order.getClass();
-        return toResponse(order.getId(), order);
+        order.setTotalPrice(total);
+        Order saved = orderRepository.save(order);
+
+        return toResponse(saved.getId(), saved);
     }
 
     public List<OrderResponse> getMyOrders() {
