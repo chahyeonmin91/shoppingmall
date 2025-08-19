@@ -1,5 +1,6 @@
 package com.wassupshoppingmall.domain.order.controller;
 
+import com.wassupshoppingmall.domain.order.dto.OrderPreviewResponse;
 import com.wassupshoppingmall.domain.order.dto.OrderRequest;
 import com.wassupshoppingmall.domain.order.dto.OrderResponse;
 import com.wassupshoppingmall.domain.order.service.OrderService;
@@ -29,5 +30,10 @@ public class OrderController {
     @GetMapping("/{orderId}")
     public ResponseEntity<OrderResponse> getMyOrderDetail(@PathVariable Long orderId) {
         return ResponseEntity.ok(orderService.getMyOrderDetail(orderId));
+    }
+
+    @GetMapping("/preview")
+    public ResponseEntity<OrderPreviewResponse> previewOrder() {
+        return ResponseEntity.ok(orderService.previewFromCart());
     }
 }

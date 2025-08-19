@@ -1,6 +1,8 @@
 package com.wassupshoppingmall.domain.order.service;
 
+import com.wassupshoppingmall.domain.cart.repository.CartRepository;
 import com.wassupshoppingmall.domain.order.controller.OrderController;
+import com.wassupshoppingmall.domain.order.dto.OrderPreviewResponse;
 import com.wassupshoppingmall.domain.order.dto.OrderRequest;
 import com.wassupshoppingmall.domain.order.dto.OrderResponse;
 import com.wassupshoppingmall.domain.order.entity.Order;
@@ -23,6 +25,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final AuthService authService;
+    private final CartRepository cartRepository;
 
     @Transactional
     public OrderResponse createOrder(OrderRequest request) {
@@ -84,6 +87,35 @@ public class OrderService {
                 .orElseThrow(()-> new IllegalArgumentException("주문을 찾을 수 없습니다."));
         return toResponse(order.getId(), order);
     }
+
+    @Transactional(readOnly = true)
+    public OrderPreviewResponse previewFromCart(){
+        User user =authService.getLoginUser();
+
+        var carts = cartRepository.findByUser(user);
+        int total = 0;
+
+        List<OrderResponse.OrderItemResponse> items = carts.stream()
+                .map(c -> {
+                    int price = c.getProduct().getPrice();
+                    total += price * c.getQuantity();
+                    return new OrderResponse.OrderItemResponse(
+                            c.getProduct().getName(),
+                            c.getQuantity(),
+                            price
+                    );
+                }).collect(Collectors.toList());
+        return OrderPreviewReponse.builder()
+                .totalPrice(total)
+                .items(items)
+                .build();
+    }
+
+
+
+
+
+
 
     private OrderResponse toResponse(Long orderId, Order order) {
         return new OrderResponse(
