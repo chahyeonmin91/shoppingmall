@@ -22,7 +22,7 @@ public class AdminOrderController {
         return ResponseEntity.ok(orderService.getAllOrdersForAdmin());
     }
 
-    @GetMapping("{/orderId}")
+    @GetMapping("/{orderId}")
     public ResponseEntity<OrderResponse> getOrderDetail(@PathVariable Long orderId) {
         return ResponseEntity.ok(orderService.getOrderDetailForAdmin(orderId));
     }

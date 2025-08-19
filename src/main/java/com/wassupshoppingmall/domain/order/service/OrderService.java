@@ -1,5 +1,6 @@
 package com.wassupshoppingmall.domain.order.service;
 
+import com.wassupshoppingmall.domain.cart.entity.Cart;
 import com.wassupshoppingmall.domain.cart.repository.CartRepository;
 import com.wassupshoppingmall.domain.order.controller.OrderController;
 import com.wassupshoppingmall.domain.order.dto.OrderPreviewResponse;
@@ -16,11 +17,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
@@ -58,54 +61,66 @@ public class OrderService {
         order.setTotalPrice(total);
         Order saved = orderRepository.save(order);
 
-        return toResponse(saved.getId(), saved);
+        return toResponse(saved);
     }
 
+    @Transactional(readOnly = true)
     public List<OrderResponse> getMyOrders() {
         User user = authService.getLoginUser();
-        return orderRepository.findByUser(user).stream()
-                .map(o -> toResponse(o.getId(), o))
-                .collect(Collectors.toList());
+        List<Order> orders = orderRepository.findByUser(user);
+
+        List<OrderResponse> result = new ArrayList<>();
+        for(Order o: orders){
+            result.add(toResponse(o));
+        }
+        return result;
     }
 
+    @Transactional(readOnly = true)
     public OrderResponse getMyOrderDetail(Long orderId) {
         User user = authService.getLoginUser();
         Order order = orderRepository.findByIdAndUser(orderId,user)
                 .orElseThrow(()->new IllegalArgumentException("해당 주문이 없거나 접근 권한이 없습니다."));
-        return toResponse(order.getId(), order);
+        return toResponse(order);
     }
 
+    @Transactional(readOnly = true)
     public List<OrderResponse> getAllOrdersForAdmin() {
-        //AdminInterceptor에서 막아줌
-        return orderRepository.findAll().stream()
-                .map(o -> toResponse(o.getId(), o))
-                .collect(Collectors.toList());
+        List<Order> orders = orderRepository.findAll();
+        List<OrderResponse> result = new ArrayList<>();
+        for(Order o: orders){
+            result.add(toResponse(o));
+        }
+        return result;
     }
 
+    @Transactional(readOnly = true)
     public OrderResponse getOrderDetailForAdmin(Long orderId) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(()-> new IllegalArgumentException("주문을 찾을 수 없습니다."));
-        return toResponse(order.getId(), order);
+        return toResponse(order);
     }
 
     @Transactional(readOnly = true)
     public OrderPreviewResponse previewFromCart(){
         User user =authService.getLoginUser();
 
-        var carts = cartRepository.findByUser(user);
+        List<Cart> carts = cartRepository.findByUser(user);
         int total = 0;
 
-        List<OrderResponse.OrderItemResponse> items = carts.stream()
-                .map(c -> {
+        List<OrderResponse.OrderItemResponse> items = new ArrayList<>();
+
+        for(Cart c: carts){
                     int price = c.getProduct().getPrice();
                     total += price * c.getQuantity();
-                    return new OrderResponse.OrderItemResponse(
+                    items.add(new OrderResponse.OrderItemResponse(
                             c.getProduct().getName(),
                             c.getQuantity(),
                             price
-                    );
-                }).collect(Collectors.toList());
-        return OrderPreviewReponse.builder()
+                    ));
+        }
+
+        return OrderPreviewResponse.builder()
                 .totalPrice(total)
                 .items(items)
                 .build();
@@ -117,21 +132,23 @@ public class OrderService {
 
 
 
-    private OrderResponse toResponse(Long orderId, Order order) {
-        return new OrderResponse(
-                order.getId(),
-                order.getRecipient(),
-                order.getPhone(),
-                order.getAddress(),
-                order.getTotalPrice(),
-                order.getCreatedAt(),
-                order.getOrderItems().stream()
-                        .map(oi -> new OrderResponse.OrderItemResponse(
-                                oi.getProduct().getName(),
-                                oi.getQuantity(),
-                                oi.getPrice()
-                        ))
-                        .collect(Collectors.toList())
-        );
+    private OrderResponse toResponse(Order order) {
+        List<OrderResponse.OrderItemResponse> items = new ArrayList<>();
+        for(OrderItem oi:order.getOrderItems()) {
+            items.add(new OrderResponse.OrderItemResponse(
+                    oi.getProduct().getName(),
+                    oi.getQuantity(),
+                    oi.getPrice()
+            ));
+        }
+
+        return OrderResponse.builder()
+                .orderId(order.getId())
+                .recipient(order.getRecipient())
+                .phone(order.getPhone())
+                .address(order.getAddress())
+                .totalPrice(order.getTotalPrice())
+                .items(items)
+                .build();
     }
 }
