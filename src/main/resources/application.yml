@@ -32,3 +32,8 @@ springdoc:
     path: /v3/api-docs            # API 문서 JSON 경로
   default-produces-media-type: application/json
   default-consumes-media-type: application/json
+
+
+jwt:
+  secret: "CHANGE_ME_TO_A_LONG_RANDOM_SECRET_AT_LEAST_64CHARS"
+  access-token-validity-ms: 3600000  # 1시간
