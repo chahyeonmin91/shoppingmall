@@ -35,5 +35,5 @@ springdoc:
 
 
 jwt:
-  secret: "CHANGE_ME_TO_A_LONG_RANDOM_SECRET_AT_LEAST_64CHARS"
+  secret: "LONG_RANDOM_SECRET_AT_LEAST_64CHARS"
   access-token-validity-ms: 3600000  # 1시간
