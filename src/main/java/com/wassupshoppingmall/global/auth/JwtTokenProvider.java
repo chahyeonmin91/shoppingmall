@@ -32,11 +32,15 @@ public class JwtTokenProvider {
         this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String genersteToken(Long userId, String email, String role) {
+    public String generateToken(Long userId, String email, String role) {
         Date now = new Date();
         Date exp = new Date(now.getTime() + validityInMs);
 
         return Jwts.builder()
+                .setSubject(email)
+                .claim("uid", userId)
+                .claim("role", role)
+                .setIssuedAt(now)
 
     }
 
