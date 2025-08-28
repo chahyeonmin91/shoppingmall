@@ -66,7 +66,7 @@ public class JwtTokenProvider {
 
         var authorities = List.of(new SimpleGrantedAuthority("ROLE_"+ role));
 
-        var principal = new JwtUSerPrincipal(userId, email, role);
+        var principal = new JwtUserPrincipal(userId, email, role);
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
 
